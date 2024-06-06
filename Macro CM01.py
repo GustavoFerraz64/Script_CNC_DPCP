@@ -84,7 +84,7 @@ class CM01:
     
     #Função destinada para ler o arquivo gerado pela CM01, além de tratar os dados
     def ler_dados_cm01(self):
-        self.arquivo_cm01= pd.read_csv(r'C:\Users\NUNESFERRAZGUSTAVO\OneDrive - TK Elevator\Área de Trabalho\Script CNC Eduardo\teste.txt', 
+        self.arquivo_cm01= pd.read_csv(r'C:\Temp\cm01.txt', 
                             encoding='latin-1', 
                             sep='\t', 
                             skiprows= 4, 
@@ -107,8 +107,10 @@ class CM01:
 
     def gerar_df_final(self):
         df_resultado = self.arquivo_cm01[~self.arquivo_cm01['Material'].isin(self.arquivos_cam)]
+        df_resultado = df_resultado.groupby('Material')['Dia'].max().reset_index()
         df_resultado = df_resultado.drop(axis=0, index=0)
         df_resultado.to_excel(r'\\srvflseng01\Dados\DobraCorte\CEFH-140\CEFH_ROBO_NOVO\RELATORIO_ROBO_CEFH.xlsx', index=False)
+
 
 def main():
     try:
@@ -124,7 +126,7 @@ def main():
         print("Compilando os dados e gerando o relatório final.")
         cm01.gerar_df_final()
         os.remove(r'C:\Temp\cm01.txt') #Deletar o arquivo txt extraido pelo SAP. Operação necessária para que o script possa ser rodado novamente no futuro.
-        print("Script finalizado. Encerrando o programa.")
+        print("Script finalizado com sucesso.")
         time.sleep(5)
     except Exception as e:
         print(e)
