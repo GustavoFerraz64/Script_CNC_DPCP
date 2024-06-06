@@ -6,6 +6,20 @@ import csv
 import os
 import traceback
 
+"""
+Script para extrair dados da transação CM01, ler todos os arquivos da extensão .CAM na pasta \\srvflseng01\Dados\DobraCorte\CEFH-140\Ca Files e
+gerar um relatório informando todos os materias que constam na pasta, mas não estão nos dados gerados pela transação CM01
+
+Instruções: 
+O usuário deve estar logado em ambiente TPR no SAP, iniciar o script, e um relatório será gerado na pasta \\srvflseng01\Dados\DobraCorte\CEFH-140\CEFH_ROBO_NOVO.xlsx
+O arquivo CEFH_ROBO_NOVO.xlsx deve estar fechado, antes de iniciar o script. Caso contrário, irá dar erro.
+
+@autor: Gustavo Nunes Ferraz
+@data : 06/06/2024
+@departamento: DPCP
+@modificado: 06/06/2024
+"""
+
 class CM01:
     
     def __init__(self):
@@ -36,9 +50,6 @@ class CM01:
         self.caminho_cm01 = r'C:\Temp' #Pasta onde será salvo o txt extraído da transação CM01 do SAP
         self.arquivos_cam = []
         
-
-    
-        
     #Função destinada a criar uma lista de todos os arquivos .CAM da pasta
     def ler_pasta(self):
         for arquivo in os.listdir(self.pasta):
@@ -61,6 +72,7 @@ class CM01:
                     i += 1
             except:
                 break
+            
         #Fazer o download do arquivo
         self.session.findById("wnd[0]").sendVKey(8)
         self.session.findById("wnd[0]/tbar[1]/btn[20]").press()
