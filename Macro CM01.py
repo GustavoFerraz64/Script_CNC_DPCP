@@ -80,6 +80,7 @@ class CM01:
         
         self.arquivo_cm01['Material'] = self.arquivo_cm01['Material'].str.replace('-','')
         self.arquivo_cm01['Material'] = self.arquivo_cm01['Material'].str.replace('.','')
+        self.arquivo_cm01 = self.arquivo_cm01[['Dia', 'Material']]
         self.arquivo_cm01.drop(axis=0, index=0)
     
     #Função destinada a ler todos os arquivos com extenção .COM na pasta \\srvflseng01\Dados\DobraCorte\CEFH-140\Ca Files. Realiza também o tratamento de dados.
@@ -94,7 +95,8 @@ class CM01:
 
     def gerar_df_final(self):
         df_resultado = self.arquivo_cm01[~self.arquivo_cm01['Material'].isin(self.arquivos_cam)]
-        return df_resultado
+        df_resultado = df_resultado.drop(axis=0, index=0)
+        df_resultado.to_excel(r'\\srvflseng01\Dados\DobraCorte\CEFH-140\CEFH_ROBO_NOVO\RELATORIO_ROBO_CEFH.xlsx', index=False)
 
 def main():
     try:
@@ -103,14 +105,15 @@ def main():
         cm01 = CM01()
         print("Extraindo os dados da transação CM01 no SAP.")
         cm01.extrai_dados_cm01()
-        print("Lendo os arquivos com extensão .CM01 na pasta \\srvflseng01\Dados\DobraCorte\CEFH-140\Ca Files")
+        print("Lendo os arquivos com extensão .CAM na pasta \\srvflseng01\Dados\DobraCorte\CEFH-140\Ca Files")
         cm01.ler_arquivos_pasta()
         print("Lendo o arquivo gerado pela CM01")
         cm01.ler_dados_cm01()
         print("Compilando os dados e gerando o relatório final.")
         cm01.gerar_df_final()
+        os.remove(r'C:\Temp\cm01.txt') #Deletar o arquivo txt extraido pelo SAP. Operação necessária para que o script possa ser rodado novamente no futuro.
         print("Script finalizado. Encerrando o programa.")
-        time.sleep(3)
+        time.sleep(5)
     except Exception as e:
         print(e)
         traceback.print_exc()
