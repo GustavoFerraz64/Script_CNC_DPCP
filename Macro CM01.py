@@ -72,7 +72,7 @@ class CM01:
                     i += 1
             except:
                 break
-            
+
         #Fazer o download do arquivo
         self.session.findById("wnd[0]").sendVKey(8)
         self.session.findById("wnd[0]/tbar[1]/btn[20]").press()
