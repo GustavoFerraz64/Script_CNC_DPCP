@@ -107,7 +107,7 @@ class CM01:
 
     def gerar_df_final(self):
         df_resultado = self.arquivo_cm01[~self.arquivo_cm01['Material'].isin(self.arquivos_cam)]
-        df_resultado = df_resultado.groupby('Material')['Dia'].max().reset_index()
+        df_resultado = df_resultado.groupby('Material')['Dia'].min().reset_index()
         df_resultado = df_resultado.drop(axis=0, index=0)
         df_resultado.to_excel(r'\\srvflseng01\Dados\DobraCorte\CEFH-140\CEFH_ROBO_NOVO\RELATORIO_ROBO_CEFH.xlsx', index=False)
 
