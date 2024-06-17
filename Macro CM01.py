@@ -17,7 +17,7 @@ O arquivo CEFH_ROBO_NOVO.xlsx deve estar fechado, antes de iniciar o script. Cas
 @autor: Gustavo Nunes Ferraz
 @data : 06/06/2024
 @departamento: DPCP
-@modificado: 06/06/2024
+@modificado: 10/06/2024
 """
 
 class CM01:
@@ -46,15 +46,10 @@ class CM01:
             sys.exit(0)
         
         #Define o caminho onde serão armazenados os arquivos
-        self.caminho_arquivos = r'\\srvflseng01\Dados\DobraCorte\CEFH-140\Ca Files'
+        self.caminho_arquivos = r'\\srveng06\FICEP\MACHINE\EXCALIBUR12\Ca Files'
         self.caminho_cm01 = r'C:\Temp' #Pasta onde será salvo o txt extraído da transação CM01 do SAP
         self.arquivos_cam = []
         
-    #Função destinada a criar uma lista de todos os arquivos .CAM da pasta
-    def ler_pasta(self):
-        for arquivo in os.listdir(self.pasta):
-            if arquivo.endswith('.CAM'):
-                self.arquivos_cam.append(arquivo)
 
     #Função destinada a executar a transação CM01 do SAP, e extrair os dados em CSV.
     def extrai_dados_cm01(self):
